@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hospital.mapper.PlanMapper">
+
+    <sql id="Base_Column_List">
+        id,doctor_id,num,week
+    </sql>
+
+    <select id="selectAll" resultType="com.hospital.entity.Plan">
+        select plan.*, doctor.name as doctorName, department.name as departmentName
+        from plan
+        left join doctor on plan.doctor_id = doctor.id
+        left join department on doctor.department_id = department.id
+        <where>
+            <if test="id != null"> and id= #{id}</if>
+            <if test="week != null"> and week= #{week}</if>
+            <if test="doctorId != null"> and plan.doctor_id = #{doctorId}</if>
+        </where>
+        order by id desc
+    </select>
+
+
+</mapper>
